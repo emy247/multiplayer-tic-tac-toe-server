@@ -53,8 +53,8 @@ func StartRouter() {
 
 	http.HandleFunc("/changeplayersymbol", player.ChangePlayerSymbol)
 
-	fmt.Println("Server is running on port 8080")
-	err := http.ListenAndServe(":8080", nil)
+	fmt.Println("Server is running on port 5000")
+	err := http.ListenAndServe(":5000", nil)
 	if err != nil {
 		fmt.Println("Error starting server:", err)
 	}

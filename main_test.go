@@ -20,10 +20,8 @@ func TestNewGame(t *testing.T) {
 	//creare joc 3x3
 	body := map[string]int{"n": 3}
 
-	//transformare in json
 	jsonBody, _ := json.Marshal(body)
 
-	//creare request
 	req := httptest.NewRequest("POST", "/newgame", bytes.NewReader(jsonBody))
 
 	//
@@ -32,9 +30,7 @@ func TestNewGame(t *testing.T) {
 	//
 	router.ServeHTTP(w, req)
 
-	// pana aici face testul si trece pass (daca n exista si e mai mare ca 0)
-
-	if w.Code != http.StatusOK { //test daca status e ok
+	if w.Code != http.StatusOK {
 		t.Fatalf("expected status ok, got %v", w.Code)
 	}
 
@@ -55,7 +51,6 @@ func TestConfigurePlayer(t *testing.T) {
 	req := httptest.NewRequest("POST", "/configureplayer?gameID=G_1", bytes.NewReader(jsonBody))
 	req2 := httptest.NewRequest("POST", "/configureplayer?gameID=G_1", bytes.NewReader(jsonBody2))
 
-	// recorder pt raspuns
 	w := httptest.NewRecorder()
 	w2 := httptest.NewRecorder()
 
@@ -68,7 +63,7 @@ func TestConfigurePlayer(t *testing.T) {
 }
 
 func TestMakeMove(t *testing.T) {
-	// handler pentru mutari
+
 	http.HandleFunc("/player1/move", func(w http.ResponseWriter, r *http.Request) {
 		gameID := r.URL.Query().Get("gameID")
 		game.GamesMu.Lock()
@@ -93,7 +88,6 @@ func TestMakeMove(t *testing.T) {
 	})
 	router := http.DefaultServeMux
 
-	// mutari pana un player castiga
 	moves := []struct {
 		player string
 		row    int
